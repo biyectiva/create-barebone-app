@@ -1,13 +1,33 @@
 {
   "name": "create-barebone-app",
   "version": "0.0.1",
+  "description": "CLI tool to create barebone web applications with ease",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
-  "author": "David Martínez <martinezmoyadavid@gmail.com>",
+  "keywords": [
+    "barebone"
+  ],
+  "author": {
+    "name": "Biyectiva Team",
+    "email": "info@biyectiva.com",
+    "url": "http://biyectiva.com"
+  },
   "license": "MIT",
   "private": false,
   "scripts": {
     "build": "npx tsc"
   },
+  "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
+  "bugs": {
+    "url": "https://github.com/biyectiva/create-barebone-app/issues",
+    "email": "info@biyectiva.com"
+  },
+  "contributors": [
+    {
+      "name": "David Martínez",
+      "email": "martinezmoyadavid@gmail.com",
+      "url": "https://botdv.github.io"
+    }
+  ],
   "devDependencies": {
     "typescript": "^4.5.4"
   }
