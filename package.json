@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "ncc build ./cli.ts -w -o build/",
     "build": "rimraf ./build && ncc build ./cli.ts -o ./build/ --minify --no-cache --no-source-map-register",
-    "prepublish": "yarn build"
+    "prepublishOnly": "yarn build"
   },
   "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
   "main": "cli.ts",
