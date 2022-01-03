@@ -1,5 +1,5 @@
 {
-  "name": "create-barebone-app",
+  "name": "@biyectiva/create-barebone-app",
   "version": "0.0.1",
   "description": "CLI tool to create barebone web applications with ease",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
@@ -14,13 +14,18 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rm -rf ./build && npx tsc"
+    "dev": "ncc build ./cli.ts -w -o build/",
+    "build": "rimraf ./build && ncc build ./cli.ts -o ./build/ --minify --no-cache --no-source-map-register",
+    "prepublish": "yarn build"
   },
   "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
   "main": "cli.ts",
   "bin": {
     "create-barebone-app": "./build/cli.js"
   },
+  "files": [
+    "build"
+  ],
   "bugs": {
     "url": "https://github.com/biyectiva/create-barebone-app/issues",
     "email": "info@biyectiva.com"
@@ -33,6 +38,8 @@
     }
   ],
   "devDependencies": {
+    "@vercel/ncc": "^0.33.1",
+    "rimraf": "^3.0.2",
     "typescript": "^4.5.4"
   }
 }
