@@ -14,9 +14,13 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "npx tsc"
+    "build": "rm -rf ./build && npx tsc"
   },
   "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
+  "main": "cli.ts",
+  "bin": {
+    "create-barebone-app": "./build/cli.js"
+  },
   "bugs": {
     "url": "https://github.com/biyectiva/create-barebone-app/issues",
     "email": "info@biyectiva.com"
