@@ -1,9 +1,14 @@
 {
   "name": "create-barebone-app",
   "version": "0.0.1",
-  "main": "bin/index.js",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
   "author": "David Martínez <martinezmoyadavid@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "build": "npx tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
 }
