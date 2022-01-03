@@ -21,7 +21,7 @@
   "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
   "main": "cli.ts",
   "bin": {
-    "create-barebone-app": "./build/cli.js"
+    "create-barebone-app": "./build/index.js"
   },
   "files": [
     "build"
