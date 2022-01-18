@@ -13,8 +13,8 @@ let projectPath: string = "";
 
 const program = new Commander.Command("create-barebone-app")
   .version(packageJson.version)
-  .arguments("<app-name>")
-  .usage(`${chalk.green("<app-name>")} [options]`)
+  .arguments("[project-directory]")
+  .usage(`${chalk.green("[project-directory]")} [options]`)
   .action((name) => {
     projectPath = name;
   })
@@ -32,7 +32,7 @@ async function run(): Promise<void> {
       type: "text",
       name: "projectPath",
       message: "What is the name of your project?",
-      initial: "my-app",
+      initial: "my-barebone-app",
       validate: (name) => {
         const validation = validateNpmName(path.basename(path.resolve(name)));
         if (validation.valid) {
@@ -51,7 +51,7 @@ async function run(): Promise<void> {
     console.log();
     console.log("Please specify the project directory:");
     console.log(
-      `  ${chalk.cyan(program.name())} ${chalk.green("<project-directory>")}`
+      `  ${chalk.cyan(program.name())} ${chalk.green("[project-directory]")}`
     );
     console.log();
     console.log("For example:");
