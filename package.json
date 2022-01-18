@@ -4,7 +4,10 @@
   "description": "CLI tool to create barebone web applications with ease",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
   "keywords": [
-    "barebone"
+    "barebone",
+    "web",
+    "webapp",
+    "cli"
   ],
   "author": {
     "name": "Biyectiva Team",
