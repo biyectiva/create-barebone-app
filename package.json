@@ -1,6 +1,6 @@
 {
   "name": "@biyectiva/create-barebone-app",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "CLI tool to create barebone web applications with ease",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
   "keywords": [
