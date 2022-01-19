@@ -1,10 +1,13 @@
 {
   "name": "@biyectiva/create-barebone-app",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "CLI tool to create barebone web applications with ease",
   "repository": "git@github.com:biyectiva/create-barebone-app.git",
   "keywords": [
-    "barebone"
+    "barebone",
+    "web",
+    "webapp",
+    "cli"
   ],
   "author": {
     "name": "Biyectiva Team",
@@ -38,12 +41,16 @@
     }
   ],
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.2",
     "@types/node": "^17.0.7",
     "@types/prompts": "^2.0.14",
+    "@types/rimraf": "^3.0.2",
     "@types/validate-npm-package-name": "^3.0.3",
     "@vercel/ncc": "^0.33.1",
     "chalk": "^5.0.0",
     "commander": "^8.3.0",
+    "cpy": "^8.1.2",
+    "cross-spawn": "^7.0.3",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.5.4",

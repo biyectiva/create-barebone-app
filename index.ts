@@ -8,17 +8,22 @@ import checkForUpdate from "update-check";
 import packageJson from "./package.json";
 import { validateNpmName } from "./helpers/validate-pkg";
 import { shouldUseYarn } from "./helpers/should-use-yarn";
+import { createApp } from "./create-app";
 
 let projectPath: string = "";
 
 const program = new Commander.Command("create-barebone-app")
   .version(packageJson.version)
-  .arguments("<app-name>")
-  .usage(`${chalk.green("<app-name>")} [options]`)
+  .arguments("[project-directory]")
+  .usage(`${chalk.green("[project-directory]")} [options]`)
   .action((name) => {
     projectPath = name;
   })
-  .option("--use-npm", "Explicitly tell the CLI to bootstrap the app using npm")
+  .option("--use-npm",
+    `
+  Explicitly tell the CLI to bootstrap the app using npm
+`
+  )
   .allowUnknownOption()
   .parse(process.argv);
 
@@ -32,7 +37,7 @@ async function run(): Promise<void> {
       type: "text",
       name: "projectPath",
       message: "What is the name of your project?",
-      initial: "my-app",
+      initial: "my-barebone-app",
       validate: (name) => {
         const validation = validateNpmName(path.basename(path.resolve(name)));
         if (validation.valid) {
@@ -51,7 +56,7 @@ async function run(): Promise<void> {
     console.log();
     console.log("Please specify the project directory:");
     console.log(
-      `  ${chalk.cyan(program.name())} ${chalk.green("<project-directory>")}`
+      `  ${chalk.cyan(program.name())} ${chalk.green("[project-directory]")}`
     );
     console.log();
     console.log("For example:");
@@ -79,6 +84,13 @@ async function run(): Promise<void> {
     problems!.forEach((p) => console.error(`    ${chalk.red.bold("*")} ${p}`));
     process.exit(1);
   }
+
+  const options = program.opts();
+
+  await createApp({
+    appPath: resolvedProjectPath,
+    useNpm: !!options.useNpm,
+  })
 }
 
 const update = checkForUpdate(packageJson).catch(() => null);
@@ -97,11 +109,11 @@ async function notifyUpdate(): Promise<void> {
       );
       console.log(
         "You can update by running: " +
-          chalk.cyan(
-            isYarn
-              ? "yarn global add create-barebone-app"
-              : "npm i -g create-barebone-app"
-          )
+        chalk.cyan(
+          isYarn
+            ? "yarn global add create-barebone-app"
+            : "npm i -g create-barebone-app"
+        )
       );
       console.log();
     }
