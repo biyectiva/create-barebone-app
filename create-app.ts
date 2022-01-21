@@ -53,17 +53,17 @@ export async function createApp({
     console.log(chalk.bold(`Using ${displayedCommand}.`))
 
     /**
-     * Create a package.json for the new project.
+     * Get the package.json data from the template.
      */
-    const packageJson = {
+    let packageJson = require(
+        path.join(root, 'package.json')
+    )
+
+    packageJson = {
         name: appName,
         private: true,
-        // scripts: {
-        //     dev: 'next dev',
-        //     build: 'next build',
-        //     start: 'next start',
-        //     lint: 'next lint',
-        // },
+        version: "0.1.0",
+        ...packageJson
     }
 
     /**
@@ -82,12 +82,12 @@ export async function createApp({
     /**
      * Default dependencies.
      */
-    const dependencies = ['react', 'react-dom']
+    const dependencies = packageJson.dependencies
 
     /**
      * Default devDependencies.
      */
-    const devDependencies = ['eslint', 'typescript', '@types/react', '@types/node']
+    const devDependencies = packageJson.devDependencies
 
     /**
      * Install package.json dependencies if they exist.
@@ -129,6 +129,7 @@ export async function createApp({
         rename: (name) => {
             switch (name) {
                 case 'gitignore':
+                case 'npmrc':
                 case 'eslintrc.json': {
                     return '.'.concat(name)
                 }
