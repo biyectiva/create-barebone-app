@@ -125,7 +125,7 @@ export async function createApp({
      */
     await cpy('**', root, {
         parents: true,
-        cwd: path.join(__dirname, 'templates', template),
+        cwd: path.join(__dirname, '..', 'templates', template),
         rename: (name) => {
             switch (name) {
                 case 'gitignore':
