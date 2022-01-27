@@ -40,6 +40,11 @@ export async function createApp({
         process.exit(1)
     }
 
+    if (tryGitInit(root)) {
+        console.log('Initialized a git repository.')
+        console.log()
+    }
+
     const useYarn = useNpm ? false : shouldUseYarn()
     const isOnline = !useYarn || (await getOnline())
     const originalDirectory = process.cwd()
@@ -150,10 +155,6 @@ export async function createApp({
         },
     })
 
-    if (tryGitInit(root)) {
-        console.log('Initialized a git repository.')
-        console.log()
-    }
 
     let cdpath: string
     if (path.join(originalDirectory, appName) === appPath) {
