@@ -21,6 +21,7 @@ export async function createApp({
     const template = 'default'
 
     const root = path.resolve(appPath)
+    const templatesPath = path.join(__dirname, '..', 'templates')
 
     if (!(await isWriteable(path.dirname(root)))) {
         console.error(
@@ -56,7 +57,7 @@ export async function createApp({
      * Get the package.json data from the template.
      */
     let packageJson = require(
-        path.join(root, 'package.json')
+        path.join(templatesPath, template, 'package.json')
     )
 
     packageJson = {
@@ -82,40 +83,42 @@ export async function createApp({
     /**
      * Default dependencies.
      */
-    const dependencies = packageJson.dependencies
+    const dependenciesNames = Object.keys(packageJson.dependencies)
+    const dependenciesVersions = Object.values<string>(packageJson.dependencies)
 
     /**
      * Default devDependencies.
      */
-    const devDependencies = packageJson.devDependencies
+    const devDependenciesNames = Object.keys(packageJson.devDependencies)
+    const devDependenciesVersions = Object.values<string>(packageJson.devDependencies)
 
     /**
      * Install package.json dependencies if they exist.
      */
-    if (dependencies.length) {
+    if (dependenciesNames.length) {
         console.log()
         console.log('Installing dependencies:')
-        for (const dependency of dependencies) {
+        for (const dependency of dependenciesNames) {
             console.log(`- ${chalk.cyan(dependency)}`)
         }
         console.log()
 
-        await install(root, dependencies, installFlags)
+        await install(root, dependenciesNames, installFlags, dependenciesVersions)
     }
 
     /**
      * Install package.json devDependencies if they exist.
      */
-    if (devDependencies.length) {
+    if (devDependenciesNames.length) {
         console.log()
         console.log('Installing devDependencies:')
-        for (const devDependency of devDependencies) {
+        for (const devDependency of devDependenciesNames) {
             console.log(`- ${chalk.cyan(devDependency)}`)
         }
         console.log()
 
         const devInstallFlags = { devDependencies: true, ...installFlags }
-        await install(root, devDependencies, devInstallFlags)
+        await install(root, devDependenciesNames, devInstallFlags, devDependenciesVersions)
     }
 
     console.log()
@@ -126,11 +129,13 @@ export async function createApp({
     await cpy('**', root, {
         parents: true,
         cwd: path.join(__dirname, '..', 'templates', template),
+        ignore: ['package.json'],
         rename: (name) => {
             switch (name) {
                 case 'gitignore':
                 case 'npmrc':
-                case 'eslintrc.json': {
+                case 'eslintrc.json':
+                case 'prettierrc': {
                     return '.'.concat(name)
                 }
                 // README.md is ignored by webpack-asset-relocator-loader used by ncc:
