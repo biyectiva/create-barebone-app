@@ -140,6 +140,7 @@ export async function createApp({
             switch (name) {
                 case 'gitignore':
                 case 'npmrc':
+                case 'env.example':
                 case 'eslintrc.json':
                 case 'prettierrc': {
                     return '.'.concat(name)
