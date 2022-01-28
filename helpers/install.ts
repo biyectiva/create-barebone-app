@@ -23,9 +23,8 @@ interface InstallArgs {
  */
 export function install(
     root: string,
-    dependencies: string[] | null,
+    dependencies: string[][] | null,
     { useYarn, isOnline, devDependencies }: InstallArgs,
-    versions?: string[] | null,
 ): Promise<void> {
     /**
      * NPM-specific command-line flags.
@@ -54,14 +53,14 @@ export function install(
                 if (!isOnline) args.push('--offline')
                 args.push('--cwd', root)
                 if (devDependencies) args.push('--dev')
-                args.push(...dependencies.map((dep, index) => `${dep}@${versions ? versions[index] : 'latest'}`))
+                args.push(...dependencies.map((dep, index) => `${dep[0]}@${dep[1]}`))
             } else {
                 /**
                  * Call `npm install [--save|--save-dev] ...`.
                  */
                 args = ['install', '--save-exact']
                 args.push(devDependencies ? '--save-dev' : '--save')
-                args.push(...dependencies.map((dep, index) => `${dep}@${versions ? versions[index] : 'latest'}`))
+                args.push(...dependencies.map((dep, index) => `${dep[0]}@${dep[1]}`))
             }
         } else {
             /**

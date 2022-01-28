@@ -40,11 +40,6 @@ export async function createApp({
         process.exit(1)
     }
 
-    if (tryGitInit(root)) {
-        console.log('Initialized a git repository.')
-        console.log()
-    }
-
     const useYarn = useNpm ? false : shouldUseYarn()
     const isOnline = !useYarn || (await getOnline())
     const originalDirectory = process.cwd()
@@ -57,6 +52,14 @@ export async function createApp({
     process.chdir(root)
 
     console.log(chalk.bold(`Using ${displayedCommand}.`))
+
+    /**
+     * Init Git repository if not present.
+     */
+    if (tryGitInit(root)) {
+        console.log('Initialized a git repository.')
+        console.log()
+    }
 
     /**
      * Get the package.json data from the template.
@@ -88,42 +91,40 @@ export async function createApp({
     /**
      * Default dependencies.
      */
-    const dependenciesNames = Object.keys(packageJson.dependencies)
-    const dependenciesVersions = Object.values<string>(packageJson.dependencies)
+    const dependencies = Object.entries<string>(packageJson.dependencies)
 
     /**
      * Default devDependencies.
      */
-    const devDependenciesNames = Object.keys(packageJson.devDependencies)
-    const devDependenciesVersions = Object.values<string>(packageJson.devDependencies)
+    const devDependencies = Object.entries<string>(packageJson.devDependencies)
 
     /**
      * Install package.json dependencies if they exist.
      */
-    if (dependenciesNames.length) {
+    if (dependencies.length) {
         console.log()
         console.log('Installing dependencies:')
-        for (const dependency of dependenciesNames) {
-            console.log(`- ${chalk.cyan(dependency)}`)
+        for (const dependency of dependencies) {
+            console.log(`- ${chalk.cyan(dependency[0] + '@' + dependency[1])}`)
         }
         console.log()
 
-        await install(root, dependenciesNames, installFlags, dependenciesVersions)
+        await install(root, dependencies, installFlags)
     }
 
     /**
      * Install package.json devDependencies if they exist.
      */
-    if (devDependenciesNames.length) {
+    if (devDependencies.length) {
         console.log()
         console.log('Installing devDependencies:')
-        for (const devDependency of devDependenciesNames) {
-            console.log(`- ${chalk.cyan(devDependency)}`)
+        for (const devDependency of devDependencies) {
+            console.log(`- ${chalk.cyan(devDependency[0] + '@' + devDependency[1])}`)
         }
         console.log()
 
         const devInstallFlags = { devDependencies: true, ...installFlags }
-        await install(root, devDependenciesNames, devInstallFlags, devDependenciesVersions)
+        await install(root, devDependencies, devInstallFlags)
     }
 
     console.log()
