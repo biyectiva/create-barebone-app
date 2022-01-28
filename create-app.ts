@@ -142,6 +142,7 @@ export async function createApp({
                 case 'npmrc':
                 case 'env.example':
                 case 'eslintrc.json':
+                case 'parcelrc':
                 case 'prettierrc': {
                     return '.'.concat(name)
                 }
