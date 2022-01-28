@@ -27,5 +27,9 @@
                 "alwaysTryTypes": true
             }
         }
-    }
+    },
+    "env": {
+        "browser": true,
+        "jest": true
+    } 
 }
