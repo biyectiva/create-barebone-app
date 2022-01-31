@@ -10,14 +10,14 @@ npx create-barebone-app
 yarn create barebone-app
 ```
 
-To create a new app in a specific folder, you can send a name as an argument. For example, the following command will create a new Next.js app called `blog-app` in a folder with the same name:
+To create a new app in a specific folder, you can send a name as an argument. For example, the following command will create a new barebone app called `blog-app` in a folder with the same name:
 
 ```bash
-npx create-next-app blog-app
+npx create-barebone-app blog-app
 ```
 
 ## Options
 
 `create-barebone-app` comes with the following options:
 
-- **--use-npm** - Explicitly tell the CLI to bootstrap the app using npm. To bootstrap using yarn we recommend to run `yarn create next-app`
+- **--use-npm** - Explicitly tell the CLI to bootstrap the app using npm. To bootstrap using yarn we recommend to run `yarn create barebone-app`
