@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-      "target": "es5",
+      "target": "es6",
       "lib": ["dom", "dom.iterable", "esnext"],
       "allowJs": true,
       "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
       "strict": true,
       "forceConsistentCasingInFileNames": true,
       "noEmit": true,
@@ -12,13 +13,18 @@
       "moduleResolution": "node",
       "resolveJsonModule": true,
       "isolatedModules": true,
-      "jsx": "preserve",
+      "jsx": "react-jsx",
+      "sourceMap": true,
+      "declaration": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
       "incremental": true,
+      "noFallthroughCasesInSwitch": true,
       "baseUrl": "./src",
       "paths": {
-          "@*": ["./*"]
+          "@/*": ["./*"]
       }
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", ".parcel-cache"]
 }

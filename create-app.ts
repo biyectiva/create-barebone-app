@@ -143,7 +143,8 @@ export async function createApp({
                 case 'env.example':
                 case 'eslintrc.json':
                 case 'parcelrc':
-                case 'prettierrc': {
+                case 'prettierrc':
+                case 'prettierignore': {
                     return '.'.concat(name)
                 }
                 // README.md is ignored by webpack-asset-relocator-loader used by ncc:
@@ -172,10 +173,10 @@ export async function createApp({
     console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}dev`))
     console.log('    Starts the development server.')
     console.log()
-    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`))
+    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}prod:build`))
     console.log('    Builds the app for production.')
     console.log()
-    console.log(chalk.cyan(`  ${displayedCommand} start`))
+    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}prod:start`))
     console.log('    Runs the built app in production mode.')
     console.log()
     console.log('We suggest that you begin by typing:')

@@ -29,7 +29,7 @@
         }
     },
     "env": {
-        "browser": true,
-        "jest": true
-    }
+        "browser": true
+    },
+    "ignorePatterns": ["dist", "node_modules", ".parcel-cache"]
 }
