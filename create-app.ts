@@ -21,6 +21,7 @@ export async function createApp({
     const template = 'default'
 
     const root = path.resolve(appPath)
+    const templatesPath = path.join(__dirname, '..', 'templates')
 
     if (!(await isWriteable(path.dirname(root)))) {
         console.error(
@@ -53,17 +54,25 @@ export async function createApp({
     console.log(chalk.bold(`Using ${displayedCommand}.`))
 
     /**
-     * Create a package.json for the new project.
+     * Init Git repository if not present.
      */
-    const packageJson = {
+    if (tryGitInit(root)) {
+        console.log('Initialized a git repository.')
+        console.log()
+    }
+
+    /**
+     * Get the package.json data from the template.
+     */
+    let packageJson = require(
+        path.join(templatesPath, template, 'package.json')
+    )
+
+    packageJson = {
         name: appName,
         private: true,
-        // scripts: {
-        //     dev: 'next dev',
-        //     build: 'next build',
-        //     start: 'next start',
-        //     lint: 'next lint',
-        // },
+        version: "0.1.0",
+        ...packageJson
     }
 
     /**
@@ -82,12 +91,12 @@ export async function createApp({
     /**
      * Default dependencies.
      */
-    const dependencies = ['react', 'react-dom']
+    const dependencies = Object.entries<string>(packageJson.dependencies)
 
     /**
      * Default devDependencies.
      */
-    const devDependencies = ['eslint', 'typescript', '@types/react', '@types/node']
+    const devDependencies = Object.entries<string>(packageJson.devDependencies)
 
     /**
      * Install package.json dependencies if they exist.
@@ -96,7 +105,7 @@ export async function createApp({
         console.log()
         console.log('Installing dependencies:')
         for (const dependency of dependencies) {
-            console.log(`- ${chalk.cyan(dependency)}`)
+            console.log(`- ${chalk.cyan(dependency[0] + '@' + dependency[1])}`)
         }
         console.log()
 
@@ -110,7 +119,7 @@ export async function createApp({
         console.log()
         console.log('Installing devDependencies:')
         for (const devDependency of devDependencies) {
-            console.log(`- ${chalk.cyan(devDependency)}`)
+            console.log(`- ${chalk.cyan(devDependency[0] + '@' + devDependency[1])}`)
         }
         console.log()
 
@@ -126,10 +135,16 @@ export async function createApp({
     await cpy('**', root, {
         parents: true,
         cwd: path.join(__dirname, '..', 'templates', template),
+        ignore: ['package.json'],
         rename: (name) => {
             switch (name) {
                 case 'gitignore':
-                case 'eslintrc.json': {
+                case 'npmrc':
+                case 'env.example':
+                case 'eslintrc.json':
+                case 'parcelrc':
+                case 'prettierrc':
+                case 'prettierignore': {
                     return '.'.concat(name)
                 }
                 // README.md is ignored by webpack-asset-relocator-loader used by ncc:
@@ -144,10 +159,6 @@ export async function createApp({
         },
     })
 
-    if (tryGitInit(root)) {
-        console.log('Initialized a git repository.')
-        console.log()
-    }
 
     let cdpath: string
     if (path.join(originalDirectory, appName) === appPath) {
@@ -162,10 +173,10 @@ export async function createApp({
     console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}dev`))
     console.log('    Starts the development server.')
     console.log()
-    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`))
+    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}prod:build`))
     console.log('    Builds the app for production.')
     console.log()
-    console.log(chalk.cyan(`  ${displayedCommand} start`))
+    console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}prod:start`))
     console.log('    Runs the built app in production mode.')
     console.log()
     console.log('We suggest that you begin by typing:')

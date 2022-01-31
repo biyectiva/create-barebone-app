@@ -20,7 +20,7 @@
     "dev": "ncc build ./index.ts -w -o build/",
     "build": "rimraf ./build && ncc build ./index.ts -o ./build/ --minify --no-cache --no-source-map-register",
     "prepublishOnly": "yarn build",
-    "create-barebone-app": "./build/index.js"
+    "test": "rimraf ./my-barebone-app && ./build/index.js"
   },
   "homepage": "https://github.com/biyectiva/create-barebone-app#readme",
   "bin": {
